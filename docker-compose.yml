@@ -1,0 +1,29 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: computer-vision-model-comparison:latest
+    container_name: computer-vision-model-comparison
+    volumes:
+      - ./data:/app/data
+      - ./results:/app/results
+      - ./torch-cache:/app/torch-cache
+    cpus: 2.0
+    mem_limit: 6g
+    memswap_limit: 6g
+    environment:
+      OMP_NUM_THREADS: "2"
+      MKL_NUM_THREADS: "2"
+      OPENBLAS_NUM_THREADS: "2"
+      NUMEXPR_NUM_THREADS: "2"
+      PYTHONHASHSEED: "42"
+    command:
+      - --model-name
+      - simple_cnn
+      - --epochs
+      - "5"
+      - --cpu-threads
+      - "2"
+      - --num-workers
+      - "0"
